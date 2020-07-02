@@ -1,5 +1,5 @@
 class Brick {
-  constructor(ball) {
+  constructor() {
     this.brickRowCount = 5;
     this.brickColumnCount = 3;
     this.brickWidth = 75;
@@ -8,7 +8,7 @@ class Brick {
     this.brickOffsetTop = 30;
     this.brickOffsetLeft = 30;
     this.bricks = [];
-    this.ball = ball;
+    // this.ball = ball;
 
     for (var c = 0; c < this.brickColumnCount; c++) {
       this.bricks[c] = [];
@@ -19,7 +19,6 @@ class Brick {
   }
 
   collisionDetection() {
-    let ball = this.ball;
 
     for (let c = 0; c < this.brickColumnCount; c++) {
       for (let r = 0; r < this.brickRowCount; r++) {
@@ -44,7 +43,7 @@ class Brick {
     }
   }
 
-  drawBricks(ctx) {
+  drawBricks() {
     for (let c = 0; c < this.brickColumnCount; c++) {
       for (let r = 0; r < this.brickRowCount; r++) {
         if (this.bricks[c][r].status == 1) {
