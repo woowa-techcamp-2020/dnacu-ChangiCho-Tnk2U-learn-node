@@ -5,19 +5,29 @@ const net = require("net");
 const connectHandler = (socket) => {
   // { port: 12346, family: 'IPv4', address: '127.0.0.1' } 객체 리턴
   const { port, address } = socket.address();
+  // console.log(socket.)
   console.log(`${address} connected.`);
 
-  // index.html 파일을 읽어 client측으로 전송한다.
-  fs.readFile("public/index.html", { encoding: "utf-8" }, (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  socket.on("data", (buf) => {
+    const header = buf.toString();
+    // temp 형식: "GET /index.html HTTP/1.1" 
+    const temp = header.split("\r\n\r\n")[0]
 
-    // 200 http response와 함께 index.html의 내용을 전송한다.
-    socket.write("HTTP/2.0 200 OK\r\n" + "\r\n");
-    socket.write(data);
-    socket.end();
+    // localhost:3000/index.html 요청일 때...
+    if (temp.indexOf("/index.html") > 0) {
+      // index.html 파일을 읽어 client측으로 전송한다.
+      fs.readFile("public/index.html", { encoding: "utf-8" }, (err, data) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+        // 200 http response와 함께 index.html의 내용을 전송한다.
+        socket.write("HTTP/2.0 200 OK\r\n" + "\r\n");
+        socket.write(data);
+        socket.end();
+      });
+    }
   });
 };
 
