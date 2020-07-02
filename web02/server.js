@@ -2,7 +2,8 @@ const http = require("http");
 const fs = require("fs");
 const url = require("url");
 
-const html = fs.readFileSync("index.html", "utf8");
+const html = fs.readFileSync("./index.html", "utf8");
+const board = fs.readFileSync("./board.html", "utf8");
 
 http
   .createServer(function (request, response) {
@@ -24,12 +25,17 @@ http
 
           let [key, value] = [body[0], body[1]];
 
-          fs.writeFile("./data.txt", value, (err) => {
+          fs.writeFileSync("./data.txt", value, (err) => {
             console.log(err);
           });
 
           response.write(html.toString());
         });
+    } else if (pathname === "/board" && request.method === "GET") {
+      let data = fs.readFileSync("./data.txt", "utf8");
+      const ret = board.toString().replace("data", data.toString());
+
+      response.write(ret);
     }
   })
   .listen(3000);
