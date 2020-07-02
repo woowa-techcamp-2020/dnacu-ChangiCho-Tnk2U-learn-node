@@ -8,7 +8,7 @@ export default class Paddle {
 
     draw(canvas, ctx) {
         ctx.beginPath();
-        ctx.rect(paddleX, this.canvas.height - paddleHeight, paddleWidth, paddleHeight);
+        ctx.rect(this.paddleX, canvas.height - this.paddleHeight, this.paddleWidth, this.paddleHeight);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
