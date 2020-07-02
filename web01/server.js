@@ -1,7 +1,7 @@
 const net = require("net");
 const fs = require("fs");
 
-const html = fs.readFileSync("index.html", "utf8");
+const html = fs.readFileSync("public/index.html", "utf8");
 
 // 서버를 생성
 const server = net.createServer(function (socket) {
@@ -20,6 +20,6 @@ server.on("error", function (err) {
   console.log("err" + err);
 });
 
-server.listen(8080, function () {
-  console.log("linsteing on 8080");
+server.listen(3000, function () {
+  console.log("linsteing on 3000");
 });
