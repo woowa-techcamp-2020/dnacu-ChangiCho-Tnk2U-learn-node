@@ -20,6 +20,6 @@ server.on("error", function (err) {
   console.log("err" + err);
 });
 
-server.listen(80, function () {
-  console.log("linsteing on 80");
+server.listen(8080, function () {
+  console.log("linsteing on 8080");
 });
