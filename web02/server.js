@@ -4,25 +4,32 @@ const url = require("url");
 
 const html = fs.readFileSync("index.html", "utf8");
 
-// console.log(html.toString());
-
 http
   .createServer(function (request, response) {
-    // URL 뒤에 있는 디렉토리/파일이름 파싱
-    // console.log(request.method);
-
     var pathname = url.parse(request.url).pathname;
 
     console.log("Request for " + pathname + " received.");
-    if (pathname === "/" && request.method === "GET") {
+    if (pathname === "/write" && request.method === "GET") {
       console.log("send index");
       response.write(html.toString());
-    } else if (pathname === "/" && request.method === "POST") {
+    } else if (pathname === "/write" && request.method === "POST") {
       // request.
+      let body = [];
+      request
+        .on("data", (chunk) => {
+          body.push(chunk);
+        })
+        .on("end", () => {
+          body = Buffer.concat(body).toString().split("=");
 
-      const text = fs.readFileSync("data.txt", "utf8");
+          let [key, value] = [body[0], body[1]];
 
-      // fs.writeFileSync("data.txt",text.toString())
+          fs.writeFile("./data.txt", value, (err) => {
+            console.log(err);
+          });
+
+          response.write(html.toString());
+        });
     }
   })
   .listen(3000);
